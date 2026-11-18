@@ -1,0 +1,1115 @@
+/* Daily Task Planner — Warm Cream Light Mode + Excel Dark Gray + Formal Sharp Geometry + Mobile Responsive */
+
+:root {
+  --bg-viewport: #e6e1d6;
+  --bg-app: #faf8f5;
+  --bg-header: #f3efe6;
+  --bg-control-strip: #f3efe6;
+  --bg-pill-subtle: #efece3;
+  --bg-surface: #f3efe6;
+  --bg-cell: #faf8f5;
+  --bg-cell-hover: #efece3;
+  --bg-cell-outside: #f3efe6;
+  --bg-subtle: #f3efe6;
+  --bg-card: #fdfbf7;
+  --bg-card-hover: #efece3;
+  --bg-input: #fdfbf7;
+  --bg-hover: #efece3;
+  --bg-active: #e5e0d4;
+  --bg-today: #ece7dc;
+  --bg-drop-highlight: rgba(33, 115, 70, 0.12);
+
+  --text-primary: #242320;
+  --text-secondary: #6e6a61;
+  --text-muted: #6e6a61;
+
+  --frame-border: #d8d2c5;
+  --border-subtle: #d8d2c5;
+  --border-strong: #d8d2c5;
+  --border-card: #d8d2c5;
+  --grid-border: #d8d2c5;
+  --border-today: #d8d2c5;
+  --border-drop: #217346;
+
+  --accent-primary: #217346;
+  --accent-primary-hover: #1a5c38;
+  --accent-soft: rgba(33, 115, 70, 0.18);
+  --excel-bright: #217346;
+
+  --danger: #c42b1c;
+  --danger-soft: rgba(196, 43, 28, 0.1);
+  --success: #217346;
+  --success-soft: rgba(33, 115, 70, 0.14);
+
+  --progress-fill: #217346;
+  --progress-track: #e4dfd3;
+
+  --shadow-frame: 0 16px 40px rgba(36, 35, 32, 0.1), 0 2px 10px rgba(36, 35, 32, 0.05);
+  --shadow-card: 0 1px 2px rgba(36, 35, 32, 0.04);
+  --shadow-card-hover: 0 2px 6px rgba(36, 35, 32, 0.08);
+  --shadow-modal: 0 18px 40px -10px rgba(36, 35, 32, 0.25), 0 6px 14px -6px rgba(36, 35, 32, 0.12);
+
+  --ease-formal: cubic-bezier(0.2, 0, 0, 1);
+  --t-fast: 150ms;
+  --t-base: 180ms;
+}
+
+.dark,
+[data-theme="dark"] {
+  --bg-viewport: #181818;
+  --bg-app: #222222;
+  --bg-header: #2d2d2d;
+  --bg-control-strip: #3a3a3a;
+  --bg-pill-subtle: #4d4d4d;
+  --bg-surface: #282828;
+  --bg-cell: #252525;
+  --bg-cell-hover: #2c2c2c;
+  --bg-cell-outside: #202020;
+  --bg-subtle: #2d2d2d;
+  --bg-card: #333333;
+  --bg-card-hover: #3c3c3c;
+  --bg-input: #333333;
+  --bg-hover: #3a3a3a;
+  --bg-active: #4d4d4d;
+  --bg-today: #2f2f2f;
+  --bg-drop-highlight: rgba(40, 167, 69, 0.16);
+
+  --text-primary: #f2f2f2;
+  --text-secondary: #b0b0b0;
+  --text-muted: #888888;
+
+  --frame-border: #3d3d3d;
+  --border-subtle: #3d3d3d;
+  --border-strong: #4d4d4d;
+  --border-card: #4a4a4a;
+  --grid-border: #444444;
+  --border-today: #444444;
+  --border-drop: #28a745;
+
+  --accent-primary: #217346;
+  --accent-primary-hover: #1a5c38;
+  --accent-soft: rgba(33, 115, 70, 0.2);
+  --excel-bright: #28a745;
+
+  --danger: #f0614f;
+  --danger-soft: rgba(240, 97, 79, 0.16);
+  --success: #28a745;
+  --success-soft: rgba(40, 167, 69, 0.18);
+
+  --progress-fill: #28a745;
+  --progress-track: #444444;
+
+  --shadow-frame: 0 24px 60px rgba(0, 0, 0, 0.65), 0 6px 20px rgba(0, 0, 0, 0.45);
+  --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.35);
+  --shadow-card-hover: 0 3px 8px rgba(0, 0, 0, 0.45);
+  --shadow-modal: 0 20px 48px -12px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(255, 255, 255, 0.06);
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body, #root {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  font-family: 'Segoe UI', 'Tahoma', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  background-color: var(--bg-viewport);
+  color: var(--text-primary);
+  line-height: 1.45;
+  -webkit-font-smoothing: antialiased;
+}
+
+button, input, select, textarea {
+  font-family: inherit;
+  color: inherit;
+}
+
+button {
+  cursor: pointer;
+  background: transparent;
+  border: none;
+}
+
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border-strong);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
+}
+
+/* ---------- Framed Viewport & Container (Formal Sharp Geometry) ---------- */
+
+.af-viewport {
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
+  background-color: var(--bg-viewport);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.af-app-frame {
+  max-width: 1360px;
+  width: calc(100% - 48px);
+  height: calc(100vh - 48px);
+  margin: 24px auto;
+  border-radius: 6px;
+  border: 1px solid var(--frame-border);
+  box-shadow: var(--shadow-frame);
+  background-color: var(--bg-app);
+  color: var(--text-primary);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  position: relative;
+}
+
+.af-app-shell {
+  display: flex;
+  flex-direction: column;
+}
+
+/* ---------- Excel-Style Top Header & Control Strips ---------- */
+
+.af-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 46px;
+  padding: 5px 12px;
+  background-color: var(--bg-header);
+  border-bottom: 1px solid var(--grid-border);
+  flex-shrink: 0;
+  gap: 8px;
+  flex-wrap: wrap;
+  z-index: 20;
+}
+
+.af-nav-strip {
+  background-color: var(--bg-control-strip);
+  border: 1px solid var(--border-strong);
+  border-radius: 4px;
+}
+
+.af-excel-badge {
+  width: 28px;
+  height: 28px;
+  border-radius: 4px;
+  background-color: var(--accent-primary);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ---------- Game-Style Save Slots Start Screen ---------- */
+
+.af-slots-screen {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+  background-color: var(--bg-app);
+  direction: rtl;
+}
+
+.af-slots-body {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 16px;
+}
+
+.af-slots-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+  gap: 14px;
+  align-items: stretch;
+}
+
+.af-slot-card {
+  position: relative;
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-card);
+  border-radius: 5px;
+  padding: 14px;
+  padding-top: 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 10px;
+  box-shadow: var(--shadow-card);
+  overflow: hidden;
+  transition:
+    background-color var(--t-fast) ease-out,
+    border-color var(--t-fast) ease-out,
+    box-shadow var(--t-fast) ease-out;
+}
+
+.af-slot-card:hover {
+  border-color: var(--accent-primary);
+  box-shadow: var(--shadow-card-hover);
+}
+
+.af-slot-card-add {
+  border-style: dashed;
+  border-width: 1.5px;
+  border-color: var(--border-strong);
+  background-color: var(--bg-surface);
+  min-height: 185px;
+}
+
+.af-slot-card-add:hover {
+  border-color: var(--excel-bright);
+  background-color: var(--bg-card);
+}
+
+.af-slot-accent-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3.5px;
+}
+
+.af-slot-num-badge {
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 1.5px 8px;
+  border-radius: 4px;
+  border: 1px solid transparent;
+}
+
+.af-slot-stats-box {
+  padding: 8px 10px;
+  border-radius: 4px;
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.af-slot-progress-track {
+  width: 100%;
+  height: 5px;
+  border-radius: 2px;
+  background-color: var(--progress-track);
+  overflow: hidden;
+  direction: rtl;
+}
+
+.af-slot-progress-fill {
+  height: 100%;
+  background-color: var(--progress-fill);
+  transition: width var(--t-base) ease-out;
+}
+
+/* ---------- Workspace & Sidebar ---------- */
+
+.af-workspace-container {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+  direction: ltr;
+  position: relative;
+}
+
+.af-sidebar {
+  position: relative;
+  width: 260px;
+  height: 100%;
+  background-color: var(--bg-surface);
+  flex-shrink: 0;
+  overflow: hidden;
+  direction: rtl;
+  z-index: 10;
+  transition:
+    width var(--t-base) var(--ease-formal),
+    opacity var(--t-base) var(--ease-formal),
+    background-color var(--t-fast) ease-out,
+    box-shadow var(--t-fast) ease-out;
+}
+
+.af-sidebar-inner {
+  display: flex;
+  flex-direction: column;
+  width: 260px;
+  height: 100%;
+}
+
+.af-sidebar-right {
+  order: 2;
+  border-left: 1px solid var(--grid-border);
+}
+
+.af-sidebar-left {
+  order: 1;
+  border-right: 1px solid var(--grid-border);
+}
+
+.af-sidebar-hidden {
+  width: 0;
+  opacity: 0;
+  border-width: 0;
+  pointer-events: none;
+}
+
+.af-main-calendar {
+  flex: 1;
+  min-width: 0;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--bg-app);
+  direction: rtl;
+  overflow: hidden;
+}
+
+.af-calendar-scroll-inner {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.af-main-when-sidebar-right {
+  order: 1;
+}
+
+.af-main-when-sidebar-left {
+  order: 2;
+}
+
+/* ---------- Buttons & Controls (Crisp 4px Radius) ---------- */
+
+.af-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  padding: 4px 9px;
+  border-radius: 4px;
+  font-size: 0.74rem;
+  font-weight: 600;
+  border: 1px solid var(--border-strong);
+  background-color: var(--bg-card);
+  color: var(--text-primary);
+  transition:
+    background-color var(--t-fast) ease-out,
+    border-color var(--t-fast) ease-out,
+    color var(--t-fast) ease-out;
+  user-select: none;
+  white-space: nowrap;
+}
+
+.af-btn:hover {
+  background-color: var(--bg-card-hover);
+}
+
+.af-btn-primary {
+  background-color: var(--accent-primary);
+  color: #ffffff;
+  border-color: var(--accent-primary);
+}
+
+.af-btn-primary:hover {
+  background-color: var(--accent-primary-hover);
+  border-color: var(--accent-primary-hover);
+  color: #ffffff;
+}
+
+.af-btn-slots {
+  background-color: var(--bg-pill-subtle);
+  border-color: var(--border-strong);
+  color: var(--text-primary);
+}
+
+.af-btn-slots:hover {
+  background-color: var(--accent-primary);
+  border-color: var(--accent-primary);
+  color: #ffffff;
+}
+
+.af-btn-danger {
+  background-color: var(--danger-soft);
+  color: var(--danger);
+  border-color: transparent;
+}
+
+.af-btn-danger:hover {
+  background-color: var(--danger);
+  color: #ffffff;
+}
+
+.af-icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 4px;
+  color: var(--text-secondary);
+  transition: background-color var(--t-fast) ease-out, color var(--t-fast) ease-out;
+}
+
+.af-icon-btn:hover {
+  background-color: var(--bg-hover);
+  color: var(--text-primary);
+}
+
+/* Segmented control (header) */
+.af-segmented {
+  display: inline-flex;
+  align-items: stretch;
+  border: 1px solid var(--border-strong);
+  border-radius: 4px;
+  overflow: hidden;
+  background-color: var(--bg-control-strip);
+}
+
+.af-segmented-btn {
+  padding: 4px 8px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  white-space: nowrap;
+  color: var(--text-secondary);
+  border-inline-start: 1px solid var(--border-subtle);
+  transition: background-color var(--t-fast) ease-out, color var(--t-fast) ease-out;
+}
+
+.af-segmented-btn:first-child {
+  border-inline-start: none;
+}
+
+.af-segmented-btn:hover {
+  background-color: var(--bg-pill-subtle);
+  color: var(--text-primary);
+}
+
+.af-segmented-btn-active,
+.af-segmented-btn-active:hover {
+  background-color: var(--accent-primary);
+  color: #ffffff;
+}
+
+.af-segmented-icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px 8px;
+}
+
+.af-input {
+  width: 100%;
+  padding: 6px 10px;
+  border-radius: 4px;
+  border: 1px solid var(--border-card);
+  background-color: var(--bg-input);
+  color: var(--text-primary);
+  font-size: 0.82rem;
+  outline: none;
+  transition: border-color var(--t-fast) ease-out, box-shadow var(--t-fast) ease-out;
+}
+
+.af-input::placeholder {
+  color: var(--text-muted);
+}
+
+.af-input:focus {
+  border-color: var(--accent-primary);
+  box-shadow: 0 0 0 2px var(--accent-soft);
+}
+
+.af-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2.5px 7px;
+  border-radius: 4px;
+  font-size: 0.68rem;
+  font-weight: 600;
+  border: 1px solid var(--border-strong);
+  background-color: var(--bg-pill-subtle);
+  color: var(--text-secondary);
+  transition:
+    background-color var(--t-fast) ease-out,
+    color var(--t-fast) ease-out,
+    border-color var(--t-fast) ease-out;
+  white-space: nowrap;
+}
+
+.af-pill:hover {
+  background-color: var(--bg-card-hover);
+  color: var(--text-primary);
+}
+
+.af-pill-active,
+.af-pill-active:hover {
+  background-color: var(--accent-primary);
+  color: #ffffff;
+  border-color: var(--accent-primary);
+}
+
+/* ---------- Rocket League-Style 2D Color Swatch Matrix ---------- */
+
+.af-color-matrix {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: 1px;
+  background-color: #141414;
+  border: 1px solid var(--border-strong);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.af-color-matrix-tile {
+  aspect-ratio: 1 / 1;
+  width: 100%;
+  border-radius: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  transition: opacity 100ms ease-out;
+}
+
+.af-color-matrix-tile:hover {
+  box-shadow: inset 0 0 0 1.5px #ffffff;
+  z-index: 1;
+}
+
+.af-color-matrix-tile-selected {
+  box-shadow: inset 0 0 0 2px #ffffff, inset 0 0 0 3px #111111 !important;
+  z-index: 2;
+}
+
+/* ---------- Calendar Grid (Excel Spreadsheet Lines & Subtle Today) ---------- */
+
+.af-weekday-header {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 1px;
+  background-color: var(--grid-border);
+  border-bottom: 1px solid var(--grid-border);
+  flex-shrink: 0;
+}
+
+.af-weekday-cell {
+  padding: 5px 6px;
+  text-align: center;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--text-secondary);
+  background-color: var(--bg-control-strip);
+  user-select: none;
+}
+
+.af-calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  grid-auto-rows: minmax(0, 1fr);
+  flex: 1;
+  min-height: 0;
+  background-color: var(--grid-border);
+  gap: 1px;
+}
+
+.af-day-cell {
+  background-color: var(--bg-cell);
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  padding: 3.5px;
+  position: relative;
+  overflow: hidden;
+  container-type: inline-size;
+  transition: background-color var(--t-fast) ease-out, box-shadow var(--t-fast) ease-out;
+}
+
+.af-day-cell:hover {
+  background-color: var(--bg-cell-hover);
+}
+
+.af-day-cell-outside {
+  background-color: var(--bg-cell-outside);
+}
+
+/* Understated Today Cell: distinct background fill only, no green outline or circle */
+.af-day-cell-today {
+  background-color: var(--bg-today);
+}
+
+.af-day-cell-today:hover {
+  background-color: var(--bg-today);
+}
+
+.af-day-cell-dragover {
+  background-color: var(--bg-drop-highlight) !important;
+  box-shadow: inset 0 0 0 1.5px var(--border-drop) !important;
+}
+
+.af-sidebar-dragover::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border: 2px solid var(--border-drop);
+  background-color: rgba(40, 167, 69, 0.06);
+  pointer-events: none;
+  z-index: 25;
+}
+
+.af-day-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 3px;
+  margin-bottom: 3px;
+  flex-shrink: 0;
+  min-width: 0;
+}
+
+.af-day-head-main {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.af-day-head-side {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  flex-shrink: 0;
+}
+
+.af-day-num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 3px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.af-day-num-today {
+  font-weight: 800;
+}
+
+.af-day-secondary {
+  font-size: 0.62rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+@container (max-width: 135px) {
+  .af-day-count {
+    display: none;
+  }
+}
+
+.af-day-tasks-list {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 3.5px;
+  padding: 1px 1px 3px 1px;
+}
+
+/* Inline Task Creation inside Day Cell */
+.af-day-inline-create {
+  padding: 1px;
+}
+
+.af-inline-day-input {
+  width: 100%;
+  padding: 3px 6px;
+  border-radius: 3px;
+  border: 1px solid var(--accent-primary);
+  background-color: var(--bg-input);
+  color: var(--text-primary);
+  font-size: 0.68rem;
+  outline: none;
+}
+
+/* ---------- Task Card (Formal 4px Corners + Inline Edit + Top-Right Expand) ---------- */
+
+@keyframes afCardIn {
+  from { opacity: 0; transform: translateY(2px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.af-task-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  border-radius: 4px;
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-card);
+  box-shadow: var(--shadow-card);
+  cursor: default;
+  user-select: none;
+  overflow: hidden;
+  flex-shrink: 0;
+  animation: afCardIn var(--t-base) ease-out;
+  transition:
+    box-shadow var(--t-fast) ease-out,
+    border-color var(--t-fast) ease-out,
+    background-color var(--t-fast) ease-out,
+    opacity var(--t-fast) ease-out;
+}
+
+.af-task-card:hover {
+  background-color: var(--bg-card-hover);
+  border-color: var(--accent-primary);
+  box-shadow: var(--shadow-card-hover);
+}
+
+.af-task-card:active {
+  cursor: default;
+}
+
+.af-task-card-dragging {
+  opacity: 0.6;
+}
+
+.af-task-card-completed {
+  opacity: 0.82;
+}
+
+.af-task-accent-strip {
+  position: absolute;
+  top: 3px;
+  bottom: 5px;
+  right: 2px;
+  width: 3px;
+  border-radius: 2px;
+}
+
+.af-card-expand-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 3px;
+  color: var(--text-muted);
+  background-color: var(--bg-subtle);
+  border: 1px solid var(--border-subtle);
+  flex-shrink: 0;
+  cursor: pointer;
+  transition: background-color var(--t-fast) ease-out, color var(--t-fast) ease-out, border-color var(--t-fast) ease-out;
+}
+
+.af-card-expand-btn:hover {
+  background-color: var(--accent-primary);
+  border-color: var(--accent-primary);
+  color: #ffffff;
+}
+
+.af-editable-title {
+  cursor: text;
+  border-radius: 2px;
+}
+
+.af-editable-title:hover {
+  background-color: var(--bg-hover);
+}
+
+.af-inline-title-input {
+  padding: 1px 4px;
+  border-radius: 3px;
+  border: 1px solid var(--accent-primary);
+  background-color: var(--bg-input);
+  color: var(--text-primary);
+  outline: none;
+  line-height: 1.25;
+}
+
+.af-task-drop-before {
+  box-shadow: 0 -2px 0 0 var(--excel-bright), var(--shadow-card);
+}
+
+.af-task-drop-after {
+  box-shadow: 0 2px 0 0 var(--excel-bright), var(--shadow-card);
+}
+
+.af-task-progress-track {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: var(--progress-track);
+  overflow: hidden;
+  direction: rtl;
+}
+
+.af-task-progress-fill {
+  height: 100%;
+  background-color: var(--progress-fill);
+  transition: width var(--t-base) ease-out;
+}
+
+.af-checkbox {
+  width: 15px;
+  height: 15px;
+  border-radius: 3px;
+  border: 1.5px solid var(--border-strong);
+  background-color: var(--bg-input);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: background-color var(--t-fast) ease-out, border-color var(--t-fast) ease-out;
+  cursor: pointer;
+}
+
+.af-checkbox:hover {
+  border-color: var(--excel-bright);
+}
+
+.af-checkbox-checked {
+  background-color: var(--accent-primary);
+  border-color: var(--accent-primary);
+  color: #ffffff;
+}
+
+/* ---------- Modals ---------- */
+
+.af-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px;
+  z-index: 100;
+  animation: afFadeIn var(--t-fast) ease-out;
+}
+
+.af-modal-panel {
+  width: 100%;
+  max-width: 500px;
+  max-height: 88vh;
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-strong);
+  border-radius: 5px;
+  box-shadow: var(--shadow-modal);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  direction: rtl;
+  animation: afPanelIn var(--t-base) ease-out;
+}
+
+@keyframes afFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes afPanelIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 1ms !important;
+    transition-duration: 1ms !important;
+  }
+}
+
+/* ---------- Full Mobile Responsiveness (Portrait & Landscape < 768px) ---------- */
+
+@media (max-width: 767px) {
+  .af-app-frame {
+    width: 100%;
+    max-width: 100%;
+    height: 100vh;
+    height: 100dvh;
+    margin: 0;
+    border-radius: 0;
+    border: none;
+    box-shadow: none;
+  }
+
+  .af-header {
+    padding: 5px 6px;
+    gap: 4px;
+    min-height: 40px;
+    justify-content: center;
+  }
+
+  .af-slots-body {
+    padding: 10px;
+  }
+
+  .af-slots-grid {
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 10px;
+  }
+
+  /* Sidebar converts into a bottom-up collapsible drawer on mobile so it never squishes the calendar */
+  .af-sidebar {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100% !important;
+    height: 46%;
+    max-height: 270px;
+    border-left: none;
+    border-right: none;
+    border-top: 2px solid var(--accent-primary);
+    box-shadow: 0 -8px 24px rgba(0, 0, 0, 0.35);
+    z-index: 30;
+    transition:
+      height var(--t-base) var(--ease-formal),
+      opacity var(--t-base) var(--ease-formal);
+  }
+
+  .af-sidebar-inner {
+    width: 100%;
+    height: 100%;
+  }
+
+  .af-sidebar-hidden {
+    height: 0 !important;
+    max-height: 0 !important;
+    opacity: 0;
+    border-top-width: 0;
+    pointer-events: none;
+  }
+
+  .af-main-calendar {
+    width: 100%;
+    height: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+  }
+
+  .af-calendar-scroll-inner {
+    min-width: 700px;
+  }
+}
+
+/* ---------- Utility classes ---------- */
+
+.flex { display: flex; }
+.inline-flex { display: inline-flex; }
+.block { display: block; }
+.flex-col { flex-direction: column; }
+.flex-row { flex-direction: row; }
+.flex-wrap { flex-wrap: wrap; }
+.flex-1 { flex: 1 1 0%; }
+.shrink-0 { flex-shrink: 0; }
+.min-w-0 { min-width: 0; }
+.min-h-0 { min-height: 0; }
+.items-center { align-items: center; }
+.items-start { align-items: flex-start; }
+.justify-between { justify-content: space-between; }
+.justify-center { justify-content: center; }
+.justify-end { justify-content: flex-end; }
+.gap-0\.5 { gap: 2px; }
+.gap-1 { gap: 4px; }
+.gap-1\.5 { gap: 6px; }
+.gap-2 { gap: 8px; }
+.gap-2\.5 { gap: 10px; }
+.gap-3 { gap: 12px; }
+.gap-3\.5 { gap: 14px; }
+.gap-4 { gap: 16px; }
+.gap-5 { gap: 20px; }
+
+.w-full { width: 100%; }
+.h-full { height: 100%; }
+.p-2 { padding: 8px; }
+.p-2\.5 { padding: 10px; }
+.p-3 { padding: 12px; }
+.p-3\.5 { padding: 14px; }
+.p-4 { padding: 16px; }
+.p-5 { padding: 20px; }
+.px-1 { padding-left: 4px; padding-right: 4px; }
+.px-1\.5 { padding-left: 6px; padding-right: 6px; }
+.px-2 { padding-left: 8px; padding-right: 8px; }
+.px-2\.5 { padding-left: 10px; padding-right: 10px; }
+.px-3 { padding-left: 12px; padding-right: 12px; }
+.px-4 { padding-left: 16px; padding-right: 16px; }
+.py-0\.5 { padding-top: 2px; padding-bottom: 2px; }
+.py-1 { padding-top: 4px; padding-bottom: 4px; }
+.py-1\.5 { padding-top: 6px; padding-bottom: 6px; }
+.py-2 { padding-top: 8px; padding-bottom: 8px; }
+.py-2\.5 { padding-top: 10px; padding-bottom: 10px; }
+.py-3 { padding-top: 12px; padding-bottom: 12px; }
+.py-6 { padding-top: 24px; padding-bottom: 24px; }
+.mb-1 { margin-bottom: 4px; }
+.mb-1\.5 { margin-bottom: 6px; }
+.mb-2 { margin-bottom: 8px; }
+.mb-3 { margin-bottom: 12px; }
+.mb-4 { margin-bottom: 16px; }
+.mt-0\.5 { margin-top: 2px; }
+.mt-1 { margin-top: 4px; }
+.mt-2 { margin-top: 8px; }
+.mt-3 { margin-top: 12px; }
+
+.rounded { border-radius: 4px; }
+.rounded-md { border-radius: 4px; }
+.rounded-lg { border-radius: 5px; }
+.rounded-xl { border-radius: 5px; }
+.rounded-2xl { border-radius: 6px; }
+.rounded-full { border-radius: 4px; }
+
+.text-xs { font-size: 0.75rem; line-height: 1.1rem; }
+.text-sm { font-size: 0.84rem; line-height: 1.25rem; }
+.text-base { font-size: 0.94rem; line-height: 1.4rem; }
+.text-lg { font-size: 1.05rem; line-height: 1.5rem; }
+.text-xl { font-size: 1.2rem; line-height: 1.65rem; }
+.text-center { text-align: center; }
+
+.font-medium { font-weight: 500; }
+.font-semibold { font-weight: 600; }
+.font-bold { font-weight: 700; }
+
+.truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.line-through { text-decoration: line-through; }
+.cursor-pointer { cursor: pointer; }
+
+.overflow-y-auto { overflow-y: auto; }
+.overflow-x-auto { overflow-x: auto; }
+.overflow-hidden { overflow: hidden; }
+
+.text-primary { color: var(--text-primary); }
+.text-secondary { color: var(--text-secondary); }
+.text-muted { color: var(--text-muted); }
+.bg-subtle { background-color: var(--bg-subtle); }
+.bg-surface { background-color: var(--bg-surface); }
+.border-subtle { border: 1px solid var(--border-subtle); }
+.border-b-subtle { border-bottom: 1px solid var(--border-subtle); }
+.border-t-subtle { border-top: 1px solid var(--border-subtle); }

@@ -1,0 +1,65 @@
+{
+  "name": "daily-task-planner",
+  "productName": "DailyTaskPlanner",
+  "version": "1.2.0",
+  "private": true,
+  "description": "مخطط المهام اليومي - تطبيق ويب وسطح مكتب لتخطيط المهام بنظام التخزينات المتعددة",
+  "author": "Daily Task Planner",
+  "type": "module",
+  "main": "electron/main.cjs",
+  "scripts": {
+    "dev": "vite",
+    "start": "node server.mjs",
+    "build": "node scripts/build-web.mjs",
+    "check": "node server.mjs --check",
+    "typecheck": "tsc --noEmit",
+    "electron:dev": "node scripts/build-web.mjs && electron .",
+    "electron:build": "node scripts/build-web.mjs && electron-builder --win --publish never"
+  },
+  "dependencies": {
+    "lucide-react": "^1.16.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.1.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "@vitejs/plugin-react": "^4.3.4",
+    "electron": "^45.3.4",
+    "electron-builder": "^26.18.0",
+    "tailwindcss": "^4.1.0",
+    "typescript": "^5.8.2",
+    "vite": "^6.2.0"
+  },
+  "build": {
+    "appId": "com.local.dailytaskplanner",
+    "productName": "DailyTaskPlanner",
+    "asar": true,
+    "electronDist": "node_modules/electron/dist",
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "electron/**/*",
+      "dist-web/**/*",
+      "package.json"
+    ],
+    "win": {
+      "target": [
+        { "target": "portable", "arch": ["x64"] },
+        { "target": "nsis", "arch": ["x64"] }
+      ],
+      "signAndEditExecutable": false
+    },
+    "portable": {
+      "artifactName": "${productName}-${version}-portable.exe"
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true,
+      "artifactName": "${productName}-Setup-${version}.exe"
+    }
+  }
+}
