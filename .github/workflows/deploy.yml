@@ -3,6 +3,7 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches: [ main ]
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -18,9 +19,13 @@ jobs:
         with:
           node-version: 20
       - run: npm install
-      - run: npm run build
+        env:
+          ELECTRON_SKIP_BINARY_DOWNLOAD: 1
+      - run: npx vite build
       - run: mkdir -p _site && (cp -r dist-web/* _site/ 2>/dev/null || cp -r dist/* _site/)
       - uses: actions/configure-pages@v5
+        with:
+          enablement: true
       - uses: actions/upload-pages-artifact@v3
         with:
           path: _site
