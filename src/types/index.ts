@@ -17,6 +17,8 @@ export interface Task {
   /** YYYY-MM-DD calendar day string, or null when unscheduled in the sidebar */
   date: string | null;
   completed: boolean;
+  /** Optional: task marked as failed (mutually exclusive with completed) */
+  failed?: boolean;
   order: number;
   subSteps: SubStep[];
   createdAt: string;

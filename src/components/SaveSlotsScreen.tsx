@@ -12,7 +12,6 @@ import {
   Layers
 } from 'lucide-react';
 import { COLOR_MATRIX_ROWS, hexToRgba } from '../utils/defaultData.ts';
-import { getSlotStats } from '../utils/progress.ts';
 import type { SaveSlotMeta, SaveSlotData, ThemeMode } from '../types/index.ts';
 
 export interface SaveSlotsScreenProps {
@@ -112,9 +111,6 @@ export function SaveSlotsScreen({
       <div className="af-slots-body">
         <div className="af-slots-grid" data-testid="save-slots-grid">
           {slots.map((slot) => {
-            const data = slotDataMap[slot.id];
-            const tasks = data ? data.tasks : [];
-            const stats = getSlotStats(tasks);
             const isEditing = editingSlotId === slot.id;
             const confirmForThis =
               confirmState && confirmState.slotId === slot.id ? confirmState.mode : null;
@@ -229,43 +225,6 @@ export function SaveSlotsScreen({
                   </div>
                 )}
 
-                {/* Slot Statistics Box */}
-                <div className="af-slot-stats-box">
-                  <div className="flex items-center justify-between text-xs">
-                    <span className="text-secondary font-semibold">
-                      المهام:{' '}
-                      <strong className="text-primary" data-testid={`slot-completed-${slot.id}`}>
-                        {stats.completedTasks}
-                      </strong>{' '}
-                      /{' '}
-                      <strong className="text-primary" data-testid={`slot-total-${slot.id}`}>
-                        {stats.totalTasks}
-                      </strong>
-                    </span>
-
-                    <span
-                      className="font-bold px-2 py-0.5 rounded"
-                      style={{
-                        backgroundColor: 'var(--accent-soft)',
-                        color: 'var(--excel-bright)',
-                        direction: 'ltr'
-                      }}
-                      data-testid={`slot-percent-${slot.id}`}
-                    >
-                      {stats.progressPercent}%
-                    </span>
-                  </div>
-
-                  {/* Excel-Green Progress Bar */}
-                  <div className="af-slot-progress-track">
-                    <div
-                      className="af-slot-progress-fill"
-                      style={{ width: `${stats.progressPercent}%` }}
-                      data-testid={`slot-progress-fill-${slot.id}`}
-                    />
-                  </div>
-                </div>
-
                 {/* Confirmation Bar for Reset / Delete */}
                 {confirmForThis ? (
                   <div
@@ -308,11 +267,11 @@ export function SaveSlotsScreen({
                   </div>
                 ) : (
                   /* Action Buttons Row */
-                  <div className="flex items-center justify-between gap-1.5">
+                  <div className="flex items-center justify-between gap-1.5 flex-wrap">
                     <button
                       type="button"
                       onClick={() => onOpenSlot(slot.id)}
-                      className="af-btn af-btn-primary flex-1 py-1.5"
+                      className="af-btn af-btn-primary flex-1 py-1.5" style={{ minWidth: '110px' }}
                       data-testid={`open-slot-btn-${slot.id}`}
                     >
                       <CalendarDays size={14} />

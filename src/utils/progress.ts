@@ -16,6 +16,10 @@ export function getTaskProgress(task: Task): number {
  * Tasks without sub-steps are left untouched.
  */
 export function withAutoCompletion(task: Task): Task {
+  // A failed task is never completed (failed and completed are mutually exclusive).
+  if (task.failed) {
+    return task.completed ? Object.assign({}, task, { completed: false }) : task;
+  }
   const total = task.subSteps.length;
   if (total === 0) return task;
   const allDone = task.subSteps.every((s) => s.completed);
@@ -29,11 +33,14 @@ export function withAutoCompletion(task: Task): Task {
  */
 export function toggleTaskCompletion(task: Task): Task {
   const next = !task.completed;
+  // Completing a task always clears the failed flag.
+  const failed = next ? false : task.failed;
   if (task.subSteps.length === 0) {
-    return Object.assign({}, task, { completed: next });
+    return Object.assign({}, task, { completed: next, failed });
   }
   return Object.assign({}, task, {
     completed: next,
+    failed,
     subSteps: task.subSteps.map((s) => Object.assign({}, s, { completed: next }))
   });
 }
@@ -59,4 +66,10 @@ export function getSlotStats(tasks: Task[]): SaveSlotStats {
     unscheduledTasks,
     progressPercent
   };
+}
+
+/** Toggles the failed state; marking as failed clears completion. */
+export function toggleTaskFailed(task: Task): Task {
+  const next = !task.failed;
+  return Object.assign({}, task, { failed: next, completed: next ? false : task.completed });
 }

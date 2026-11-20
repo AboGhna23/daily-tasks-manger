@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import {
   X,
   Check,
@@ -9,11 +9,13 @@ import {
   CornerUpLeft,
   ArrowUp,
   ArrowDown,
-  CheckSquare
+  CheckSquare,
+  Copy,
+  XCircle
 } from 'lucide-react';
 import { hexToRgba } from '../utils/defaultData.ts';
 import { formatDateLabel } from '../utils/dateSystems.ts';
-import { getTaskProgress, toggleTaskCompletion } from '../utils/progress.ts';
+import { getTaskProgress, toggleTaskCompletion, toggleTaskFailed } from '../utils/progress.ts';
 import type { Task, Category, SubStep, DateMode } from '../types/index.ts';
 
 export interface TaskDetailModalProps {
@@ -24,6 +26,7 @@ export interface TaskDetailModalProps {
   onUpdateTask: (updated: Task) => void;
   onDeleteTask: (taskId: string) => void;
   onMoveToSidebar: (taskId: string) => void;
+  onDuplicateTask: (task: Task) => void;
 }
 
 export function TaskDetailModal({
@@ -33,9 +36,29 @@ export function TaskDetailModal({
   onClose,
   onUpdateTask,
   onDeleteTask,
-  onMoveToSidebar
+  onMoveToSidebar,
+  onDuplicateTask
 }: TaskDetailModalProps) {
   const [newStepText, setNewStepText] = useState('' as string);
+  const [justCopied, setJustCopied] = useState(false as boolean);
+  const copyTimerRef = useRef(null as number | null);
+
+  useEffect(() => {
+    return () => {
+      if (copyTimerRef.current !== null) window.clearTimeout(copyTimerRef.current);
+    };
+  }, []);
+
+  const handleDuplicate = () => {
+    onDuplicateTask(task);
+    setJustCopied(true);
+    if (copyTimerRef.current !== null) window.clearTimeout(copyTimerRef.current);
+    copyTimerRef.current = window.setTimeout(() => setJustCopied(false), 1200);
+  };
+
+  const handleToggleFailed = () => {
+    onUpdateTask(toggleTaskFailed(task));
+  };
 
   const totalSteps = task.subSteps.length;
   const completedSteps = task.subSteps.filter((s) => s.completed).length;
@@ -74,7 +97,8 @@ export function TaskDetailModal({
     const updatedSteps = task.subSteps.map((s) =>
       s.id === stepId ? Object.assign({}, s, { completed: !s.completed }) : s
     );
-    onUpdateTask(Object.assign({}, task, { subSteps: updatedSteps }));
+    const allDone = updatedSteps.length > 0 && updatedSteps.every((s) => s.completed);
+    onUpdateTask(Object.assign({}, task, { subSteps: updatedSteps, failed: allDone ? false : task.failed }));
   };
 
   const handleEditSubStepText = (stepId: string, text: string) => {
@@ -123,9 +147,24 @@ export function TaskDetailModal({
             >
               {task.completed && <Check size={13} strokeWidth={3} />}
             </button>
-            <span className="text-xs font-bold px-2 py-0.5 rounded bg-subtle text-secondary">
-              {task.completed ? 'مهمة مكتملة' : 'قيد التنفيذ'}
+            <span
+              className="text-xs font-bold px-2 py-0.5 rounded bg-subtle text-secondary"
+              data-testid="modal-status-label"
+              style={task.failed ? { color: 'var(--failed-text)' } : undefined}
+            >
+              {task.failed ? 'فشلت' : task.completed ? 'مهمة مكتملة' : 'قيد التنفيذ'}
             </span>
+
+            <button
+              type="button"
+              onClick={handleToggleFailed}
+              className={`af-btn af-btn-failed ${task.failed ? 'af-btn-failed-active' : ''}`}
+              aria-pressed={task.failed ? 'true' : 'false'}
+              data-testid="modal-task-failed-btn"
+            >
+              <XCircle size={13} />
+              <span>فشلت المهمة</span>
+            </button>
           </div>
 
           <button
@@ -436,15 +475,27 @@ export function TaskDetailModal({
             <span>حذف المهمة</span>
           </button>
 
-          <button
-            type="button"
-            onClick={onClose}
-            className="af-btn af-btn-primary"
-            data-testid="done-task-modal-btn"
-          >
-            <Check size={14} />
-            <span>تم الحفظ</span>
-          </button>
+          <div className="flex items-center gap-1.5">
+            <button
+              type="button"
+              onClick={onClose}
+              className="af-btn af-btn-primary"
+              data-testid="done-task-modal-btn"
+            >
+              <Check size={14} />
+              <span>تم الحفظ</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={handleDuplicate}
+              className="af-btn"
+              data-testid="duplicate-task-btn"
+            >
+              {justCopied ? <Check size={14} /> : <Copy size={14} />}
+              <span>{justCopied ? 'تم النسخ' : 'نسخ للقائمة'}</span>
+            </button>
+          </div>
         </div>
       </div>
     </div>

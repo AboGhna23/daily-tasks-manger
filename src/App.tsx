@@ -168,6 +168,26 @@ export function App() {
     updateActiveSlotTasks((prev) => [...prev, newTask]);
   };
 
+  // Duplicates a task (title, category, sub-steps with fresh IDs) into the unscheduled sidebar list
+  const handleDuplicateTask = (source: Task) => {
+    const copy: Task = {
+      id: newId('task'),
+      title: source.title,
+      categoryId: source.categoryId,
+      date: null,
+      completed: false,
+      failed: false,
+      order: unscheduledTasks.length,
+      subSteps: source.subSteps.map((s) => ({
+        id: newId('step'),
+        text: s.text,
+        completed: false
+      })),
+      createdAt: new Date().toISOString()
+    };
+    updateActiveSlotTasks((prev) => [...prev, copy]);
+  };
+
   const handleRenameTask = (taskId: string, newTitle: string) => {
     const trimmed = newTitle.trim();
     if (!trimmed) return;
@@ -513,6 +533,7 @@ export function App() {
                 onUpdateTask={handleUpdateTask}
                 onDeleteTask={handleDeleteTask}
                 onMoveToSidebar={(taskId) => moveTaskToBucket(taskId, null)}
+                onDuplicateTask={handleDuplicateTask}
               />
             )}
 

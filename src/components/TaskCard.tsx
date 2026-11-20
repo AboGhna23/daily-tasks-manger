@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Check, CheckSquare, Maximize2 } from 'lucide-react';
+import { Check, CheckSquare, Maximize2, XCircle } from 'lucide-react';
 import { hexToRgba } from '../utils/defaultData.ts';
 import { getTaskProgress } from '../utils/progress.ts';
 import { setActiveDraggedTaskId, getActiveDraggedTaskId } from '../utils/dragState.ts';
@@ -61,7 +61,8 @@ export function TaskCard({
   const completedSteps = task.subSteps.filter((s) => s.completed).length;
   const progress = getTaskProgress(task);
   const isFull = progress === 100;
-  const accentColor = category ? category.color : '#217346';
+  const isFailed = Boolean(task.failed);
+  const accentColor = isFailed ? 'var(--failed-accent)' : category ? category.color : '#217346';
 
   const commitInlineTitle = () => {
     if (submittingRef.current) return;
@@ -145,6 +146,7 @@ export function TaskCard({
   const cardClasses = [
     'af-task-card',
     task.completed ? 'af-task-card-completed' : '',
+    isFailed ? 'af-task-card-failed' : '',
     isDragging ? 'af-task-card-dragging' : '',
     dropIndicator === 'before' ? 'af-task-drop-before' : '',
     dropIndicator === 'after' ? 'af-task-drop-after' : ''
@@ -277,7 +279,13 @@ export function TaskCard({
             }}
             className={`af-editable-title flex-1 min-w-0 font-medium ${
               compact ? 'text-xs' : 'text-sm'
-            } ${task.completed ? 'line-through text-muted' : 'text-primary'}`}
+            } ${
+              task.completed
+                ? 'line-through text-muted'
+                : isFailed
+                ? 'text-muted'
+                : 'text-primary'
+            }`}
             style={
               compact
                 ? {
@@ -363,6 +371,17 @@ export function TaskCard({
             </span>
           )}
 
+          {isFailed && (
+            <span
+              className="inline-flex items-center gap-1 rounded font-bold af-failed-badge"
+              style={{ fontSize: badgeFont, padding: badgePadding }}
+              data-testid={`task-failed-badge-${task.id}`}
+            >
+              <XCircle size={compact ? 8 : 10} />
+              <span>فشلت</span>
+            </span>
+          )}
+
           <span
             className="inline-flex items-center rounded font-bold"
             style={{
@@ -385,7 +404,7 @@ export function TaskCard({
       <div className="af-task-progress-track" style={{ height: barHeight }}>
         <div
           className="af-task-progress-fill"
-          style={{ width: `${progress}%` }}
+          style={{ width: isFailed ? '100%' : `${progress}%` }}
           data-testid={`task-progress-fill-${task.id}`}
         />
       </div>

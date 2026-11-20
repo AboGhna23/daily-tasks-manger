@@ -199,3 +199,14 @@ export const EyeOff = createIcon([
   ['path', { d: 'M17.479 17.499a10.75 10.75 0 0 1-15.417-5.151 1 1 0 0 1 0-.696 10.75 10.75 0 0 1 4.446-5.143' }],
   ['path', { d: 'm2 2 20 20' }]
 ]);
+
+export const Copy = createIcon([
+  ['rect', { width: '14', height: '14', x: '8', y: '8', rx: '2', ry: '2' }],
+  ['path', { d: 'M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2' }]
+]);
+
+export const XCircle = createIcon([
+  ['circle', { cx: '12', cy: '12', r: '10' }],
+  ['path', { d: 'm15 9-6 6' }],
+  ['path', { d: 'm9 9 6 6' }]
+]);
